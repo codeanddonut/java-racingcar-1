@@ -11,31 +11,35 @@ public class Calculator {
 
     Calculator(String expression) {
         try {
-            final Queue<String> tokens = new LinkedList<>(
-                    Stream.of(expression.split(" "))
-                    .map(x -> x.trim())
-                    .filter(x -> !x.equals("") && !x.equals(" "))
-                    .collect(Collectors.toList())
-            );
-            result = Double.parseDouble(tokens.poll());
+            final Queue<String> tokens = Stream.of(expression.split("\\s+"))
+                                                .filter(token -> token.length() > 0)
+                                                .collect(Collectors.toCollection(LinkedList::new));
+            this.result = extractNumber(tokens);
             calculate(tokens);
-        } catch (IndexOutOfBoundsException | NoSuchElementException | NullPointerException | NumberFormatException e) {
+        } catch (
+                IndexOutOfBoundsException
+                        | NoSuchElementException
+                        | NullPointerException
+                        | NumberFormatException e
+        ) {
             throw new IllegalArgumentException();
         }
     }
 
+    private double extractNumber(Queue<String> tokens) {
+        return Double.parseDouble(tokens.poll());
+    }
     private boolean calculate(Queue<String> tokens) {
-        result = Operation.ofSymbol(tokens.poll())
-                .apply(result, Double.parseDouble(tokens.poll()));
+        this.result = Operation.ofSymbol(tokens.poll()).apply(this.result, extractNumber(tokens));
         return tokens.isEmpty() || calculate(tokens);
     }
 
-    public double getResult() {
-        return result;
+    public double result() {
+        return this.result;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(result);
+        return String.valueOf(this.result);
     }
 }

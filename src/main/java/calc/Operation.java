@@ -9,14 +9,14 @@ public enum Operation {
     MULTIPLY("*", (lhs, rhs) -> lhs * rhs),
     DIVIDE("/", (lhs, rhs) -> (!rhs.equals(.0)) ? lhs / rhs : 0 / 0);
 
-    private String symbol;
-    private BiFunction<Double, Double, Double> operation;
+    private final String symbol;
+    private final BiFunction<Double, Double, Double> operation;
 
     static public Operation ofSymbol(String symbol) {
         return Stream.of(Operation.values())
-                .filter(x -> x.symbol.equals(symbol))
-                .findFirst()
-                .get();
+                    .filter(x -> x.symbol.equals(symbol))
+                    .findAny()
+                    .get();
     }
 
     Operation(String symbol, BiFunction<Double, Double, Double> operation) {
