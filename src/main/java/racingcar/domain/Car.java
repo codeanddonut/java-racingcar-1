@@ -1,57 +1,43 @@
 package racingcar.domain;
 
-public class Car implements Comparable<Car> {
+import java.util.Optional;
+
+public class Car {
     private static final int MAX_NAME_LENGTH = 5;
+    private static final int MIN_POSITION = 0;
+    private static final int DEFAULT_INITIAL_POSITION = 0;
+
     private final String name;
     private int position;
 
-    public Car(String name, int position) {
-        if (name.length() < 1 || MAX_NAME_LENGTH < name.length() || position < 0) {
-            throw new IllegalArgumentException();
-        }
-        this.name = name;
-        this.position = position;
+    protected Car(String name, int position) {
+        this.name = Optional.of(name).filter(x -> x.length() > 0)
+                                    .filter(x -> x.length() <= MAX_NAME_LENGTH)
+                                    .orElseThrow(IllegalArgumentException::new);
+        this.position = (position > MIN_POSITION) ? position : MIN_POSITION;
     }
 
-    public Car(String name) {
-        this(name, 0);
+    protected Car(String name) {
+        this(name, DEFAULT_INITIAL_POSITION);
     }
 
-    public Car move(Movable cond) {
+    public Car move(MovementStrategy cond) {
         if (cond.isMovable()) {
             position++;
         }
         return this;
     }
 
-    public int getPosition() {
-        return position;
+    public String name() {
+        return this.name;
+    }
+
+    public int position() {
+        return this.position;
     }
 
     @Override
     public String toString() {
-        return name;
-    }
-
-    @Override
-    public int compareTo(Car rhs) {
-        return position - rhs.position;
-    }
-
-    @Override
-    public boolean equals(Object rhs) {
-        if (rhs == this) {
-            return true;
-        }
-        if (!(rhs instanceof Car)) {
-            return false;
-        }
-        Car car = (Car) rhs;
-        return name == car.name && position == car.position;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.length() * 65535 + position;
+        return this.name + ", " + this.position;
     }
 }

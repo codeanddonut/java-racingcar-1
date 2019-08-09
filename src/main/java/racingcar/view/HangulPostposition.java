@@ -8,9 +8,10 @@ package racingcar.view;
 public class HangulPostposition {
     static final int UNICODE_START_OF_HANGUL = 0xAC00;
     static final int CYCLE = 28;
-    static final char[] CONVERSION_TABLE = ("영일이삼사오육칠팔구:;<=>?@"
-            + "이비씨디이프쥐치이이이엘엠엔오피큐알쓰티유이유스이지"
-            + "[원]^_`이비씨디이프쥐치이이이엘엠엔오피큐알쓰티유이유스이지"
+    static final char[] CONVERSION_TABLE = (
+            "영일이삼사오육칠팔구:;<=>?@"
+                    + "이비씨디이프쥐치이이이엘엠엔오피큐알쓰티유이유스이지"
+                    + "[원]^_`이비씨디이프쥐치이이이엘엠엔오피큐알쓰티유이유스이지"
     ).toCharArray();
 
     public static String differentiateIGa(String sentence) {
