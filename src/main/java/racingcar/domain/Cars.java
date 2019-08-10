@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Cars {
+    private static final String INPUT_DELIMITER = ",+";
     private static final int MIN_NUMBER_OF_CARS = 2;
 
     private final List<Car> cars;
@@ -14,7 +15,7 @@ public class Cars {
     public Cars(String input) {
         this.cars = Stream.of(
                 Optional.ofNullable(input)
-                        .map(x -> x.split(",+"))
+                        .map(x -> x.split(INPUT_DELIMITER))
                         .orElseThrow(IllegalArgumentException::new)
         ).map(String::trim)
         .filter(x -> x.length() > 0)
