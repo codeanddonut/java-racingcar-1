@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Calculator {
+    private static final String DELIMITER = "\\s+";
+
     private double result;
 
     Calculator(String expression) {
         try {
-            final Queue<String> tokens = Stream.of(expression.split("\\s+"))
+            final Queue<String> tokens = Stream.of(expression.split(DELIMITER))
                                                 .filter(token -> token.length() > 0)
                                                 .collect(Collectors.toCollection(LinkedList::new));
             this.result = extractNumber(tokens);

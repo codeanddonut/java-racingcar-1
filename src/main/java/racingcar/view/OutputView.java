@@ -27,9 +27,7 @@ public class OutputView {
     public static void printWinners(RoundSnapshot roundSnapshot) {
         String names = roundSnapshot.winners().reduce((a, b) -> a + ", " + b).get();
         System.out.println(
-                names
-                + HangulPostposition.differentiateIGa(names)
-                + " 최종 우승했습니다."
+                names + HangulPostposition.differentiateIGa(names) + " 최종 우승했습니다."
         );
     }
 }
